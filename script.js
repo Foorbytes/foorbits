@@ -6,6 +6,11 @@
   const printerMessage = document.querySelector('[data-printer-message]');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  const identityStyles = document.createElement('link');
+  identityStyles.rel = 'stylesheet';
+  identityStyles.href = 'identity.css?v=20260724';
+  document.head.append(identityStyles);
+
   const closeMenu = () => {
     if (!menuButton || !navigation) return;
     menuButton.setAttribute('aria-expanded', 'false');
@@ -57,6 +62,149 @@
   document.querySelectorAll('img[data-image-fallback]').forEach(setupImageFallback);
 
   const makerWorldProfile = 'https://makerworld.com/en/@foorbits';
+  const curatedIdentityImages = {
+    hero: [
+      'https://images.squarespace-cdn.com/content/v1/67d43fe55de38e1268996d39/91f39fa4-49ed-4213-8e36-5fc93400942d/1.png',
+      'https://images.squarespace-cdn.com/content/v1/67d43fe55de38e1268996d39/17e7bc0b-bb52-45eb-ade1-242cb05f5ce3/IMG_4714.jpeg',
+      'https://images.squarespace-cdn.com/content/v1/67d43fe55de38e1268996d39/95271446-0560-47f5-a2ae-f35c00625c51/IMG_4321.jpeg'
+    ],
+    worlds: [
+      'https://makerworld.bblmw.com/makerworld/model/US1557302051b217/design/2025-05-20_b52b4436974918.jpeg?x-oss-process=image%2Fresize%2Cw_1000%2Fformat%2Cwebp',
+      'https://images.squarespace-cdn.com/content/v1/67d43fe55de38e1268996d39/6d767857-00c2-4885-a781-60b697520843/IMG_4807.jpeg',
+      'https://images.squarespace-cdn.com/content/v1/67d43fe55de38e1268996d39/ad182151-fb00-40a3-bc0c-83332c76046c/IMG_4429.jpeg'
+    ],
+    profile: [
+      'https://images.squarespace-cdn.com/content/v1/67d43fe55de38e1268996d39/227a3739-6e90-41b2-9b07-9e309fc89bc7/IMG_4596.jpeg',
+      'https://images.squarespace-cdn.com/content/v1/67d43fe55de38e1268996d39/2ba246ca-ad44-48c4-8139-6aa1a21d070a/IMG_4300.jpeg'
+    ],
+    benefits: [
+      'https://makerworld.bblmw.com/makerworld/model/US1557302051b217/design/2025-05-20_b52b4436974918.jpeg?x-oss-process=image%2Fresize%2Cw_1000%2Fformat%2Cwebp',
+      'https://images.squarespace-cdn.com/content/v1/67d43fe55de38e1268996d39/07c6b802-ab94-4b02-a7d5-5abb15aded8c/IMG_4763.jpeg',
+      'https://makerworld.bblmw.com/makerworld/model/USeb1522b260b98e/design/2025-07-14_c37da8f7dddc7.png?x-oss-process=image%2Fresize%2Cw_1000%2Fformat%2Cwebp',
+      'https://images.squarespace-cdn.com/content/v1/67d43fe55de38e1268996d39/8fcd00c5-e5a6-4bbf-9f47-3ab31f1acb27/IMG_4220.jpeg'
+    ],
+    final: [
+      'https://images.squarespace-cdn.com/content/v1/67d43fe55de38e1268996d39/4485b95b-86d7-475d-b5d9-11abc0f81481/21%2BMINUTE%2BPRINT%21-2.png',
+      'https://images.squarespace-cdn.com/content/v1/67d43fe55de38e1268996d39/4b5b38ea-e026-47ef-89b1-bf7912490559/IMG_4234.jpeg'
+    ]
+  };
+
+  const createDecorativeImage = (src, className = '') => {
+    const image = document.createElement('img');
+    image.src = src;
+    image.alt = '';
+    image.className = className;
+    image.loading = 'lazy';
+    image.decoding = 'async';
+    image.referrerPolicy = 'no-referrer';
+    image.addEventListener('error', () => image.remove(), { once: true });
+    return image;
+  };
+
+  const mountIdentityDetails = () => {
+    const heroCopy = document.querySelector('.hero-copy');
+    if (heroCopy && !heroCopy.querySelector('.hero-identity-strip')) {
+      const strip = document.createElement('div');
+      strip.className = 'hero-identity-strip';
+      strip.setAttribute('aria-label', 'Original models from the Foorbits workshop');
+
+      const label = document.createElement('span');
+      label.className = 'hero-identity-strip__label';
+      label.textContent = 'Printed in the Foorbits workshop';
+
+      const photos = document.createElement('div');
+      photos.className = 'hero-identity-strip__photos';
+
+      curatedIdentityImages.hero.forEach((src, index) => {
+        const link = document.createElement('a');
+        link.className = 'identity-thumb';
+        link.href = makerWorldProfile;
+        link.target = '_blank';
+        link.rel = 'noreferrer';
+        link.setAttribute('aria-label', `Explore Foorbits model ${index + 1} on MakerWorld`);
+
+        const image = document.createElement('img');
+        image.src = src;
+        image.alt = 'Original Foorbits 3D-printed model';
+        image.loading = 'lazy';
+        image.decoding = 'async';
+        image.referrerPolicy = 'no-referrer';
+        image.dataset.imageFallback = 'Foorbits';
+        setupImageFallback(image);
+
+        link.append(image);
+        photos.append(link);
+      });
+
+      strip.append(label, photos);
+      heroCopy.append(strip);
+    }
+
+    const worldsIntro = document.querySelector('.worlds-intro');
+    if (worldsIntro && !worldsIntro.querySelector('.worlds-model-strip')) {
+      const strip = document.createElement('div');
+      strip.className = 'worlds-model-strip';
+      strip.setAttribute('aria-hidden', 'true');
+
+      const label = document.createElement('span');
+      label.textContent = 'From the Makerverse';
+
+      curatedIdentityImages.worlds.forEach((src) => {
+        const frame = document.createElement('figure');
+        frame.append(createDecorativeImage(src));
+        strip.append(frame);
+      });
+
+      strip.prepend(label);
+      worldsIntro.append(strip);
+    }
+
+    const profileCard = document.querySelector('.profile-card');
+    if (profileCard && !profileCard.querySelector('.profile-card__models')) {
+      const models = document.createElement('div');
+      models.className = 'profile-card__models';
+      models.setAttribute('aria-hidden', 'true');
+
+      curatedIdentityImages.profile.forEach((src) => {
+        const frame = document.createElement('figure');
+        frame.className = 'profile-card__model';
+        frame.append(createDecorativeImage(src));
+        models.append(frame);
+      });
+
+      profileCard.prepend(models);
+    }
+
+    const benefitCards = document.querySelectorAll('.benefit-grid article');
+    benefitCards.forEach((card, index) => {
+      if (card.querySelector('.benefit-model')) return;
+      card.classList.add(`benefit-card--${index + 1}`);
+      const image = createDecorativeImage(
+        curatedIdentityImages.benefits[index % curatedIdentityImages.benefits.length],
+        'benefit-model'
+      );
+      card.prepend(image);
+    });
+
+    const finalCta = document.querySelector('.final-cta');
+    if (finalCta && !finalCta.querySelector('.final-cta__models')) {
+      const models = document.createElement('div');
+      models.className = 'final-cta__models';
+      models.setAttribute('aria-hidden', 'true');
+
+      curatedIdentityImages.final.forEach((src, index) => {
+        const frame = document.createElement('figure');
+        frame.className = `final-cta__model final-cta__model--${index + 1}`;
+        frame.append(createDecorativeImage(src));
+        models.append(frame);
+      });
+
+      finalCta.prepend(models);
+    }
+  };
+
+  mountIdentityDetails();
+
   const showcaseModels = [
     {
       id: 'gamma-guy',
