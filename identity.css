@@ -1,0 +1,484 @@
+/* Curated Foorbits identity layers
+   Keeps the rotating showcase dynamic while giving key sections a fixed,
+   recognizable set of Foorbits models. */
+
+.hero-identity-strip {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 28px;
+}
+
+.hero-identity-strip__label {
+  max-width: 118px;
+  color: rgba(255, 255, 255, 0.58);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 9px;
+  font-weight: 900;
+  line-height: 1.35;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.hero-identity-strip__photos {
+  display: flex;
+  align-items: center;
+  padding-left: 8px;
+}
+
+.identity-thumb {
+  position: relative;
+  width: 62px;
+  height: 62px;
+  display: block;
+  margin-left: -10px;
+  overflow: hidden;
+  border: 3px solid rgba(255, 255, 255, 0.88);
+  border-radius: 18px;
+  background: var(--ink-soft);
+  box-shadow: 7px 8px 0 rgba(0, 0, 0, 0.22);
+  transform: rotate(-4deg);
+  transition: transform 170ms ease, z-index 170ms ease, box-shadow 170ms ease;
+}
+
+.identity-thumb:first-child {
+  margin-left: 0;
+}
+
+.identity-thumb:nth-child(2) {
+  transform: rotate(4deg);
+}
+
+.identity-thumb:nth-child(3) {
+  transform: rotate(-1deg);
+}
+
+.identity-thumb:hover,
+.identity-thumb:focus-visible {
+  z-index: 4;
+  transform: translateY(-5px) rotate(0);
+  box-shadow: 9px 12px 0 rgba(0, 0, 0, 0.28);
+}
+
+.identity-thumb:focus-visible {
+  outline: 3px solid var(--yellow);
+  outline-offset: 3px;
+}
+
+.identity-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.identity-thumb.image-fallback::before {
+  max-width: 88%;
+  padding: 4px;
+  border: 0;
+  font-size: 10px;
+  box-shadow: none;
+}
+
+/* A small, fixed model shelf grounds the universe list in actual Foorbits work. */
+.worlds-model-strip {
+  display: flex;
+  align-items: flex-end;
+  gap: 0;
+  margin-top: 34px;
+}
+
+.worlds-model-strip > span {
+  margin: 0 18px 10px 0;
+  color: rgba(7, 19, 31, 0.46);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.worlds-model-strip figure {
+  position: relative;
+  width: 112px;
+  height: 82px;
+  margin: 0 0 0 -10px;
+  overflow: hidden;
+  border: 3px solid var(--ink);
+  border-radius: 18px;
+  background: var(--ink-soft);
+  box-shadow: 7px 7px 0 rgba(7, 19, 31, 0.16);
+  transform: rotate(-4deg);
+}
+
+.worlds-model-strip figure:nth-of-type(2) {
+  z-index: 2;
+  transform: translateY(-7px) rotate(3deg);
+}
+
+.worlds-model-strip figure:nth-of-type(3) {
+  transform: rotate(-1deg);
+}
+
+.worlds-model-strip img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Turn the MakerWorld portal card into a real mini shelf instead of an abstract block. */
+.profile-card {
+  isolation: isolate;
+}
+
+.profile-card > .profile-card__models {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.profile-card > .profile-card__noise {
+  z-index: 1;
+}
+
+.profile-card > *:not(.profile-card__noise):not(.profile-card__models) {
+  z-index: 2;
+}
+
+.profile-card__models::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom, rgba(7, 19, 31, 0.03), rgba(7, 19, 31, 0.76) 58%, var(--ink) 88%),
+    linear-gradient(90deg, rgba(7, 19, 31, 0.08), transparent 50%);
+}
+
+.profile-card__model {
+  position: absolute;
+  width: 58%;
+  height: 52%;
+  margin: 0;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.28);
+  border-radius: 22px;
+  box-shadow: 0 20px 46px rgba(0, 0, 0, 0.35);
+}
+
+.profile-card__model:first-child {
+  top: -6%;
+  right: -6%;
+  transform: rotate(7deg);
+}
+
+.profile-card__model:last-child {
+  top: 15%;
+  left: -15%;
+  transform: rotate(-9deg);
+}
+
+.profile-card__model img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-card__avatar {
+  box-shadow: 8px 8px 0 var(--cyan), 0 18px 36px rgba(0, 0, 0, 0.3);
+}
+
+/* Patreon benefit cards use curated Foorbits photos as full-bleed backdrops.
+   A strong lower vignette protects every line of copy and keeps the icons crisp. */
+.benefit-grid article {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: rgba(7, 19, 31, 0.34);
+}
+
+.benefit-grid article::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(to bottom, rgba(7, 19, 31, 0.06) 0%, rgba(7, 19, 31, 0.24) 32%, rgba(7, 19, 31, 0.9) 76%, rgba(7, 19, 31, 0.96) 100%),
+    linear-gradient(120deg, rgba(239, 78, 124, 0.18), rgba(121, 87, 220, 0.2));
+  pointer-events: none;
+}
+
+.benefit-grid article > :not(.benefit-model) {
+  position: relative;
+  z-index: 2;
+}
+
+.benefit-model {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.76;
+  transform: scale(1.02);
+  transition: transform 450ms cubic-bezier(0.2, 0.75, 0.2, 1), opacity 180ms ease;
+}
+
+.benefit-card--1 .benefit-model {
+  object-position: 50% 30%;
+}
+
+.benefit-card--2 .benefit-model {
+  object-position: 52% 43%;
+}
+
+.benefit-card--3 .benefit-model {
+  object-position: 50% 34%;
+}
+
+.benefit-card--4 .benefit-model {
+  object-position: 48% 42%;
+}
+
+.benefit-grid article:hover .benefit-model {
+  opacity: 0.9;
+  transform: scale(1.075);
+}
+
+.benefit-grid h3,
+.benefit-grid p {
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
+}
+
+.benefit-icon {
+  box-shadow: 4px 4px 0 rgba(7, 19, 31, 0.68), 0 10px 24px rgba(0, 0, 0, 0.24);
+}
+
+/* The closing CTA now feels like a real Foorbits shelf while the central
+   message and buttons remain untouched and fully clickable. */
+.final-cta {
+  min-height: 560px;
+  display: grid;
+  align-content: center;
+  padding-inline: clamp(190px, 19vw, 270px);
+}
+
+.final-cta__models {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.final-cta__models::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at center, rgba(7, 19, 31, 0.28) 0%, rgba(7, 19, 31, 0.64) 58%, rgba(7, 19, 31, 0.78) 100%);
+}
+
+.final-cta__model {
+  position: absolute;
+  width: 230px;
+  height: 292px;
+  margin: 0;
+  overflow: hidden;
+  border: 3px solid rgba(255, 255, 255, 0.7);
+  border-radius: 30px;
+  background: var(--ink-soft);
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.45);
+}
+
+.final-cta__model::after {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  padding: 7px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  background: rgba(7, 19, 31, 0.8);
+  color: var(--cyan);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+
+.final-cta__model--1 {
+  left: 3%;
+  bottom: -34px;
+  transform: rotate(-7deg);
+}
+
+.final-cta__model--1::after {
+  content: "FOORBITS ORIGINAL";
+}
+
+.final-cta__model--2 {
+  right: 3%;
+  top: -34px;
+  transform: rotate(7deg);
+}
+
+.final-cta__model--2::after {
+  content: "FRESH OFF THE PLATE";
+}
+
+.final-cta__model img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.final-cta > .final-cta__burst {
+  z-index: 1;
+}
+
+.final-cta > .final-cta__models {
+  z-index: 0;
+}
+
+.final-cta > *:not(.final-cta__burst):not(.final-cta__models) {
+  position: relative;
+  z-index: 2;
+}
+
+.final-cta h2 {
+  max-width: 780px;
+}
+
+@media (max-width: 1040px) {
+  .final-cta {
+    min-height: 530px;
+    padding-inline: 150px;
+  }
+
+  .final-cta__model {
+    width: 180px;
+    height: 236px;
+    opacity: 0.86;
+  }
+
+  .profile-card__model {
+    width: 46%;
+  }
+}
+
+@media (max-width: 820px) {
+  .hero-identity-strip {
+    max-width: 460px;
+  }
+
+  .worlds-model-strip {
+    margin-top: 28px;
+  }
+
+  .worlds-model-strip figure {
+    width: 96px;
+    height: 72px;
+  }
+
+  .final-cta {
+    min-height: 540px;
+    padding-inline: 105px;
+  }
+
+  .final-cta__model {
+    width: 140px;
+    height: 188px;
+    opacity: 0.72;
+  }
+
+  .final-cta__model--1 {
+    left: -8px;
+    bottom: -16px;
+  }
+
+  .final-cta__model--2 {
+    right: -6px;
+    top: -18px;
+  }
+
+  .benefit-grid article {
+    min-height: 250px;
+  }
+}
+
+@media (max-width: 620px) {
+  .hero-identity-strip {
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .hero-identity-strip__label {
+    max-width: 96px;
+    font-size: 8px;
+  }
+
+  .identity-thumb {
+    width: 52px;
+    height: 52px;
+    border-radius: 15px;
+  }
+
+  .worlds-model-strip {
+    align-items: center;
+  }
+
+  .worlds-model-strip > span {
+    display: none;
+  }
+
+  .worlds-model-strip figure {
+    width: 88px;
+    height: 66px;
+  }
+
+  .profile-card__model {
+    width: 62%;
+    height: 45%;
+  }
+
+  .benefit-grid article {
+    min-height: 270px;
+  }
+
+  .final-cta {
+    min-height: 620px;
+    padding: 110px 20px 118px;
+  }
+
+  .final-cta__model {
+    width: 112px;
+    height: 148px;
+    border-radius: 20px;
+    opacity: 0.68;
+  }
+
+  .final-cta__model::after {
+    display: none;
+  }
+
+  .final-cta__model--1 {
+    left: 10px;
+    bottom: -12px;
+    transform: rotate(-7deg);
+  }
+
+  .final-cta__model--2 {
+    right: 8px;
+    top: -12px;
+    transform: rotate(7deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .identity-thumb,
+  .benefit-model {
+    transition: none;
+  }
+}
