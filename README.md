@@ -20,9 +20,8 @@ After the site branch is merged into `main`, open the repository's **Settings �
 
 ## Site structure
 
-- `index.html` — page content and external profile links
-- `styles.css` — responsive visual design
-- `script.js` — mobile navigation, reveal effects, image fallbacks, and the interactive printer status
-- `.nojekyll` — serves the static files directly through GitHub Pages
+- `index.html` is the whole site: one self-contained page (its styles and script are inside it), plus the pictures in `img/`.
+- Featured models are the `MODELS` array at the top of the script in `index.html`, one line per model (name, hook, collection, picture, link).
+- `CNAME` and `.nojekyll` serve the page on foorbits.com through GitHub Pages.
 
 Model imagery and designs are © Foorbits. The website source is maintained for the official Foorbits site.
