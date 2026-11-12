@@ -153,6 +153,7 @@ body { margin: 0; background: var(--fb-paper); color: var(--fb-ink); font-family
 .fb-card__tag[data-shelf="echo"] { background: var(--fb-blue); color: var(--fb-on-blue); }
 .fb-card__tag[data-shelf="pals"] { background: var(--fb-sun); }
 .fb-card__tag[data-shelf="desk"] { background: var(--fb-cyan); }
+.fb-card__new { position: absolute; z-index: 3; right: 14px; top: -24px; transform: rotate(7deg); font-family: var(--fb-display); font-size: 1.02rem; letter-spacing: 0.05em; line-height: 1; padding: 0.5em 0.85em 0.56em; border: 3px solid var(--fb-line); border-radius: 999px; background: var(--fb-night); color: var(--fb-sun); box-shadow: 0 0 0 3px var(--fb-card), 2px 5px 0 3px var(--fb-line); }
 .fb-card__body { display: grid; gap: 6px; padding: 16px 9px 0; }
 .fb-card__name { font-family: var(--fb-display); font-weight: 400; font-size: clamp(1.6rem, 2.6vw, 1.95rem); line-height: 1.05; }
 .fb-card__hook { font-weight: 700; color: var(--fb-muted); }
@@ -478,6 +479,8 @@ body { margin: 0; background: var(--fb-paper); color: var(--fb-ink); font-family
 
   /* FEATURED MODELS. To add a model, add one line:
      name, hook (one line), collection (must match a key in SHELVES), image, alt, link.
+     fresh: true marks the newest release: it is dealt first on every visit and wears a NEW sticker.
+     Move it to the next release when one comes out.
      Models without a listing link yet point to the profile. */
   var MODELS = [
     { name: "Grumbles the Grumpy Cat", hook: "Flat on the floor and judging you.", collection: "Print Pals", image: "img/grumbles.jpg", alt: "Grumbles the Grumpy Cat, a black and white flexi cat lying down with a very grumpy face", link: "https://makerworld.com/en/models/1800386-grumbles-the-grumpy-cat-flexi-animal-toy" },
@@ -494,7 +497,7 @@ body { margin: 0; background: var(--fb-paper); color: var(--fb-ink); font-family
     { name: "Stitchling", hook: "Stitched up, button-eyed and sitting pretty.", collection: "Desk Buddies & Minis", image: "img/stitchling.jpg", alt: "Stitchling, small sitting rag dolls with stitched mouths and button eyes in several colors", link: "https://makerworld.com/en/models/1657324-stitchling-the-rag-doll-keychain-toy" },
     { name: "Mohawg", hook: "A bright pink pig with a blue mohawk.", collection: "Desk Buddies & Minis", image: "img/mohawg.jpg", alt: "Mohawg, a bright pink sitting pig with a blue mohawk and big blue eyes", link: "https://makerworld.com/en/models/2879507-mohawg-the-smiling-punk-pig-desk-buddy" },
     { name: "Woolybean", hook: "Tiny highland cows with hearts. A 24 minute print.", collection: "Desk Buddies & Minis", image: "img/woolybean.jpg", alt: "Woolybean, a row of tiny highland cow prints in many colors holding pink hearts", link: "https://makerworld.com/en/models/2236421-woolybean-the-highland-cow-keychain-toy" },
-    { name: "Magmaw", hook: "A great white who swam over a volcano. It did not improve his mood.", collection: "Print Pals", image: "img/magmaw.jpg", alt: "Magmaw, a black articulated great white shark print with orange lava cracks, a yellow belly and white teeth", link: "https://makerworld.com/en/models/3596505-magmaw-the-molten-great-white-shark-flexi" },
+    { name: "Magmaw", fresh: true, hook: "A great white who swam over a volcano. It did not improve his mood.", collection: "Print Pals", image: "img/magmaw.jpg", alt: "Magmaw, a black articulated great white shark print with orange lava cracks, a yellow belly and white teeth", link: "https://makerworld.com/en/models/3596505-magmaw-the-molten-great-white-shark-flexi" },
     { name: "Orca the Killer Whale", hook: "Black and white flexi whale. Also a keychain.", collection: "Print Pals", image: "img/orca.jpg", alt: "Two black and white articulated orca prints, one with a keyring", link: "https://makerworld.com/en/models/2779816-orca-the-flexi-killer-whale" },
     { name: "Bonkley the Hammerhead", hook: "A hammerhead shark with a very friendly face.", collection: "Print Pals", image: "img/bonkley.jpg", alt: "Bonkley the Hammerhead Shark, a grey flexi hammerhead lying on a sandy sea floor", link: "https://makerworld.com/en/models/2545112-bonkley-the-hammerhead-shark-print-pal-flexi" },
     { name: "Bongo the Gorilla", hook: "A small gorilla with a big look.", collection: "Desk Buddies & Minis", image: "img/bongo.jpg", alt: "Bongo the Gorilla, a brown sitting gorilla figure in a jungle clearing", link: "https://makerworld.com/en/models/2851571-bongo-the-gorilla-desk-buddy" },
@@ -557,6 +560,12 @@ body { margin: 0; background: var(--fb-paper); color: var(--fb-ink); font-family
     img.alt = model.alt || model.name;
     card.querySelector(".fb-card__name").textContent = model.name;
     card.querySelector(".fb-card__hook").textContent = model.hook;
+    if (model.fresh) {
+      var fresh = document.createElement("span");
+      fresh.className = "fb-card__new";
+      fresh.textContent = "New!";
+      card.insertBefore(fresh, tag.nextSibling);
+    }
     if (animate) { card.classList.add("is-in"); }
     return card;
   }
@@ -596,6 +605,9 @@ body { margin: 0; background: var(--fb-paper); color: var(--fb-ink); font-family
     }, 380);
   }
 
+  /* First deal of a visit: the newest release is always on the table, in the first spot. */
+  deck = mix(allIndexes().filter(function (i) { return !MODELS[i].fresh; }))
+    .concat(allIndexes().filter(function (i) { return MODELS[i].fresh; }));
   deal(false);
   if (button) { button.addEventListener("click", shuffle); }
 
