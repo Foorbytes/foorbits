@@ -148,7 +148,7 @@ body { margin: 0; background: var(--fb-paper); color: var(--fb-ink); font-family
 .fb-card:nth-child(even) { justify-self: end; }
 .fb-card__photo { display: block; border: 3px solid var(--fb-line); border-radius: 17px; overflow: hidden; background: var(--fb-paper); }
 .fb-card__photo img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
-.fb-card__tag { position: absolute; left: 20px; top: -17px; transform: rotate(-4deg); font-family: var(--fb-display); font-size: 0.98rem; letter-spacing: 0.03em; line-height: 1; padding: 0.42em 0.8em 0.48em; border: 3px solid var(--fb-line); border-radius: 999px; background: var(--fb-sun); color: var(--fb-pop-ink); box-shadow: 0 3px 0 var(--fb-line); }
+.fb-card__tag { position: absolute; z-index: 2; left: 18px; top: -21px; transform: rotate(-4deg); font-family: var(--fb-display); font-size: 0.98rem; letter-spacing: 0.03em; line-height: 1; padding: 0.42em 0.8em 0.48em; border: 3px solid var(--fb-line); border-radius: 999px; background: var(--fb-sun); color: var(--fb-pop-ink); box-shadow: 0 0 0 3px var(--fb-card), 2px 5px 0 3px var(--fb-line); }
 .fb-card__tag[data-shelf="art"] { background: var(--fb-orange); }
 .fb-card__tag[data-shelf="echo"] { background: var(--fb-blue); color: var(--fb-on-blue); }
 .fb-card__tag[data-shelf="pals"] { background: var(--fb-sun); }
